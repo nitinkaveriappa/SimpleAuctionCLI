@@ -3,23 +3,29 @@ package test;
 import java.sql.*;  
 
 public class OracleConnect {
-	public static void main(String args[]){  
+	
+	public static void main(String args[]){ 
+		
+		String user;
+		String password;
+		user = "nudiyand";
+		password = "";
+
 		try{  
 		//step1 load the driver class  
 		Class.forName("oracle.jdbc.driver.OracleDriver");  
 		//step2 create  the connection object  
-		Connection con=DriverManager.getConnection(  
-		"jdbc:oracle:thin:@localhost:1521:xe","system","oracle");
-		String sql = "SELECT * FROM User WHERE userId = ?"; 
+		Connection con = DriverManager.getConnection("jdbc:oracle:thin:@apollo.ite.gmu.edu:1521:ite10g", user, password);
+		String sql = "SELECT mid,name FROM member WHERE age = ?"; 
 		//step3 create the statement object
 		PreparedStatement prepStmt = con.prepareStatement(sql);
-		String userId = "0";
-		prepStmt.setString(1, userId); 
+		int age = 17;
+		prepStmt.setInt(1, age); 
         ResultSet rs = prepStmt.executeQuery();
         //step4 execute query  
 		  
 		while(rs.next())  
-		System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));  
+		System.out.println(rs.getString(1)+"  "+rs.getString(2));  
 		  
 		//step5 close the connection object  
 		con.close();
