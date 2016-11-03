@@ -21,8 +21,8 @@ public class OracleConnect {
 		PreparedStatement prepStmt = con.prepareStatement(sql);
 		int age = 17;
 		prepStmt.setInt(1, age); 
-        ResultSet rs = prepStmt.executeQuery();
-        //step4 execute query  
+        	ResultSet rs = prepStmt.executeQuery();
+       	 	//step4 execute query  
 		  
 		while(rs.next())  
 		System.out.println(rs.getString(1)+"  "+rs.getString(2));  
