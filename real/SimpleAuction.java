@@ -1,11 +1,11 @@
 package real;
 
 import java.io.*;
-import java.sql.*;;
 
 public class SimpleAuction {
 
 	public static void main(String args[]) {
+		//ArrayList<String> list=new ArrayList<String>();
 		String Op1 = null;
 		int Int1 = 0;
 		while(Int1!=4){
@@ -29,18 +29,19 @@ public class SimpleAuction {
 			
 			switch(Int1){
 			case 1:
-			Connection conn = DBConnect.connect();
-	
-			String sql = "SELECT table_name FROM user_tables"; 
-			PreparedStatement prepStmt = null;
-				try {
-					prepStmt = conn.prepareStatement(sql);
-					ResultSet rs = prepStmt.executeQuery();
-					while(rs.next())  
-						System.out.println(rs.getString(1));  
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}   
+				Actions.viewTables();
+				break;
+			case 2:
+				Actions.modifyRecords();
+				break;
+			case 3:
+				Actions.searchDatabase();
+				break;
+			case 4:
+				break;
+			default:
+				System.out.println("ERROR: Please select valid option");
+				break;
 			}
 		}
 	}
