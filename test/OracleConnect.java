@@ -8,7 +8,7 @@ public class OracleConnect {
 		
 		String user;
 		String password;
-		user = "nudiyand";
+		user = "xxx";
 		password = "";
 
 		try{  

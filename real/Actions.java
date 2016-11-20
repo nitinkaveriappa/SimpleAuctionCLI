@@ -72,9 +72,7 @@ public class Actions {
 			        System.out.print("\n");
 			        while (rs.next()) {
 			          for (i = 0; i < columnNames.size(); i++) {
-			            System.out.print(rs.getString(columnNames.get(i))
-			                + "\t");
-
+			            System.out.print(rs.getString(columnNames.get(i)) + "\t");
 			          }
 			          System.out.print("\n");
 			        }  
@@ -92,10 +90,105 @@ public class Actions {
 	}
 	
 	public static void modifyRecords() {
+		String Op3 = null;
+		int Int3 = 0;
+		
+		while(Int3!=7) {
+			System.out.println("Please select one of the options below:");
+			System.out.println("1. Enter information for new customers (buyers/sellers)");
+			System.out.println("2. Enter information for listings");
+			System.out.println("3. Enter information for bids");
+			System.out.println("4. Update/delete information on customers");
+			System.out.println("5. Update/delete information on listings");
+			System.out.println("6. Update/delete information on bids");
+			System.out.println("7. Exit");
+			
+			System.out.println("User Input(1-7): ");
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			try {
+				Op3 = br.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Int3 = Integer.parseInt(Op3);
+			System.out.println(Int3);
+			
+			switch(Int3){
+			case 1:
+				
+				break;
+			case 2:
+				
+				break;
+			case 3:
+				
+				break;
+			case 4:
+				
+				break;
+			case 5:
+				
+				break;
+			case 6:
+			
+				break;
+			case 7:
+				break;
+			default:
+				System.out.println("ERROR: Please select valid option");
+				break;
+			}
+		}
 		
 	}
 	public static void searchDatabase() {
+		String Op4 = null;
+		int Int4 = 0;
 		
+		while(Int4!=6){
+			System.out.println("Please select one of the options below:");
+			System.out.println("1. Search listings based on product names");
+			System.out.println("2. Search listings based on seller ID");
+			System.out.println("3. Search for specific user and show comments as well as ratings");
+			System.out.println("4. Search for specific user and show average rating"); 
+			System.out.println("5. Show all bids for a given listing");
+			System.out.println("6. Exit");
+			
+			System.out.println("User Input(1-6): ");
+			
+			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			try {
+				Op4 = br.readLine();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			Int4 = Integer.parseInt(Op4);
+			System.out.println(Int4);
+			
+			switch(Int4){
+			case 1:
+				SubActions.searchListPName();
+				break;
+			case 2:
+				SubActions.searchListSID();
+				break;
+			case 3:
+				SubActions.searchUserCommentsRatings();
+				break;
+			case 4:
+				SubActions.searchUserAvgRating();
+				break;
+			case 5:
+				SubActions.showBids();
+				break;
+			case 6:
+				break;
+			default:
+				System.out.println("ERROR: Please select valid option");
+				break;
+			}
+		}
 	}
 
 }

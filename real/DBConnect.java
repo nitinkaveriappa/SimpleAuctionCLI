@@ -8,7 +8,7 @@ public class DBConnect {
 	static Connection connect() {
 		String user;
 		String password;
-		user = "nudiyand";
+		user = "xxx";
 		password = "";
 		Connection con=null;
 		try{  
