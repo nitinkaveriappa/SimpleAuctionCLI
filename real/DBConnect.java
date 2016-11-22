@@ -8,7 +8,7 @@ public class DBConnect {
 	static Connection connect() {
 		String user;
 		String password;
-		user = "xxx";
+		user = "nudiyand";
 		password = "";
 		Connection con=null;
 		try{  
@@ -16,6 +16,7 @@ public class DBConnect {
 		Class.forName("oracle.jdbc.driver.OracleDriver");  
 		//step2 create  the connection object  
 		con = DriverManager.getConnection("jdbc:oracle:thin:@apollo.ite.gmu.edu:1521:ite10g", user, password);
+		System.out.println("Connected to Database successfully");
 		}
 		catch(Exception e)
 		{ System.out.println(e);} 

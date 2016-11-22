@@ -57,22 +57,21 @@ public class Actions {
 				//using table name from list to prevent injection
 				String sql2 = "SELECT * FROM "+list.get(Int2-1); 
 					
-				cnt=0;
-				ArrayList<String> columnNames=new ArrayList<String>();
+				ArrayList<String> colNames=new ArrayList<String>();
 				prepStmt = conn.prepareStatement(sql2);
 				ResultSet rs = prepStmt.executeQuery();
 				if (rs != null) {
-			        ResultSetMetaData columns = rs.getMetaData();
+			        ResultSetMetaData rsm = rs.getMetaData();
 			        int i = 0;
-					while (i < columns.getColumnCount()) {
+					while (i < rsm.getColumnCount()) {
 			          i++;
-			          System.out.print(columns.getColumnName(i) + "\t");
-			          columnNames.add(columns.getColumnName(i));
+			          System.out.print(rsm.getColumnName(i) + "\t");
+			          colNames.add(rsm.getColumnName(i));
 			        }
 			        System.out.print("\n");
 			        while (rs.next()) {
-			          for (i = 0; i < columnNames.size(); i++) {
-			            System.out.print(rs.getString(columnNames.get(i)) + "\t");
+			          for (i = 0; i < colNames.size(); i++) {
+			            System.out.print(rs.getString(colNames.get(i)) + "\t");
 			          }
 			          System.out.print("\n");
 			        }  
