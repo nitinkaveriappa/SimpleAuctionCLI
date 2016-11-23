@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SubActions {
+public class SearchActions {
 
 	public static void searchListPName() {
 		System.out.println("Enter the Product Name to search Listing: ");

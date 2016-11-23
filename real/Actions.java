@@ -100,7 +100,7 @@ public class Actions {
 			System.out.println("4. Update/delete information on customers");
 			System.out.println("5. Update/delete information on listings");
 			System.out.println("6. Update/delete information on bids");
-			System.out.println("7. Exit");
+			System.out.println("7. Go back to Previous Menu");
 			
 			System.out.println("User Input(1-7): ");
 			
@@ -115,7 +115,7 @@ public class Actions {
 			
 			switch(Int3){
 			case 1:
-				
+				ModifyActions.insertNewCustomer();
 				break;
 			case 2:
 				
@@ -152,7 +152,7 @@ public class Actions {
 			System.out.println("3. Search for specific user and show comments as well as ratings");
 			System.out.println("4. Search for specific user and show average rating"); 
 			System.out.println("5. Show all bids for a given listing");
-			System.out.println("6. Exit");
+			System.out.println("6. Go Back to previous Menu");
 			
 			System.out.println("User Input(1-6): ");
 			
@@ -167,19 +167,19 @@ public class Actions {
 			
 			switch(Int4){
 			case 1:
-				SubActions.searchListPName();
+				SearchActions.searchListPName();
 				break;
 			case 2:
-				SubActions.searchListSID();
+				SearchActions.searchListSID();
 				break;
 			case 3:
-				SubActions.searchUserCommentsRatings();
+				SearchActions.searchUserCommentsRatings();
 				break;
 			case 4:
-				SubActions.searchUserAvgRating();
+				SearchActions.searchUserAvgRating();
 				break;
 			case 5:
-				SubActions.showBids();
+				SearchActions.showBids();
 				break;
 			case 6:
 				break;
