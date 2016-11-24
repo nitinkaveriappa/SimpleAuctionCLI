@@ -40,6 +40,7 @@ public class SimpleAuction {
 				Actions.searchDatabase();
 				break;
 			case 4:
+				System.out.println("Thank you for using our Simple Auction Application");
 				break;
 			default:
 				System.out.println("ERROR: Please select valid option");

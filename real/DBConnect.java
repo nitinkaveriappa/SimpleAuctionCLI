@@ -8,8 +8,10 @@ public class DBConnect {
 	static Connection connect() {
 		String user;
 		String password;
-		user = "nudiyand";
-		password = "ygroas";
+	//	user = "nudiyand";
+	//	password = "ygroas";
+		user = "sbulusu2";
+		password = "oomtab";
 		Connection con=null;
 		try{  
 		//step1 load the driver class  
