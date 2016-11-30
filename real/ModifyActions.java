@@ -119,16 +119,50 @@ public class ModifyActions {
 		System.out.println(St7);
 				
 		Connection conn = DBConnect.connect();
-				
+		
+		// check if the current seller is in the list of current sellers, if not insert seller_id into seller table
 		String Res = null;
-		String sql3 = "SELECT listing_id FROM listing WHERE ROWNUM=1 ORDER BY listing_id DESC"; 
+		String sql3 = "SELECT seller_id FROM seller"; 
 		PreparedStatement prepStmt1 = null;
+
+		boolean flag = false;
+		try {
+			prepStmt1 = conn.prepareStatement(sql3);
+			ResultSet rs = prepStmt1.executeQuery();
+
+			while(rs.next()){
+				Res=rs.getString(1);
+				if(Integer.parseInt(Res) == St7){
+					flag = true;
+
+				}
+				System.out.print(Res + ", ");
+			}
+			if(flag != true){
+
+				sql3 = "INSERT INTO seller (seller_id) VALUES(?)";
+				PreparedStatement prepStmt2 = null;
+				try {
+					prepStmt2 = conn.prepareStatement(sql3);
+					prepStmt2.setInt(1, St7);
+					prepStmt2.executeQuery();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		Res = null;
+		sql3 = "SELECT listing_id FROM listing WHERE ROWNUM=1 ORDER BY listing_id DESC"; 
+		prepStmt1 = null;
 		try {
 			prepStmt1 = conn.prepareStatement(sql3);
 			ResultSet rs = prepStmt1.executeQuery();
 			while(rs.next()){
 				Res=rs.getString(1);
-				System.out.println(Res);
+			//	System.out.println(Res);
 			}  
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -169,10 +203,9 @@ public class ModifyActions {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		String Ip1 = null, Ip2 = null, Ip3 = null;
 		try {
-			System.out.println("Enter Amount: ");
-			Ip1 = br.readLine();
-			System.out.println("Enter Listing_id: ");
 			
+			
+			System.out.println("Current Listings available: ");
 			//list of current listing
 			Connection conn = DBConnect.connect();
 			String Res = null;
@@ -188,7 +221,11 @@ public class ModifyActions {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
+			System.out.println("Enter Listing_id: ");
 			Ip2 = br.readLine();
+			
+			System.out.println("Enter Amount: ");
+			Ip1 = br.readLine();
 			
 			System.out.println("Enter Buyer_id: ");
 			Ip3 = br.readLine();
