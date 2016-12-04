@@ -65,7 +65,7 @@ public class SearchActions {
 		Connection conn = DBConnect.connect();
 		
 		//query to fetch all tuples from listing of the Product ID provided
-		String sql3 = "select a.* from listing a where a.pid=?"; 
+		String sql3 = "select a.* from listing a where a.seller_id=?"; 
 		PreparedStatement prepStmt = null;
 			try {
 				prepStmt = conn.prepareStatement(sql3);
