@@ -1,4 +1,5 @@
 drop trigger checkBidValidity;
+drop trigger updateAvgRating;
 drop table bid cascade constraints;
 drop table completed_transaction cascade constraints;
 drop table listing cascade constraints;
@@ -22,20 +23,26 @@ create table customer
 );
 
 
+
+
 create table seller
 (
   seller_id integer not null,
   primary key (seller_id),
-  foreign key (seller_id) references customer(id)
+  foreign key (seller_id) references customer(id) ON DELETE CASCADE
 );
+
+
 
 
 create table buyer
 (
   buyer_id integer not null,
   primary key (buyer_id),
-  foreign key (buyer_id) references customer(id)
+  foreign key (buyer_id) references customer(id) ON DELETE CASCADE
 );
+
+
 
 
 create table product
@@ -46,6 +53,8 @@ create table product
 );
 
 
+
+
 create table category
 (
   label varchar2(50) not null,
@@ -53,14 +62,18 @@ create table category
 );
 
 
+
+
 create table belongs_to
 (
   pid integer not null,
   label varchar2(50) not null,
   primary key (pid, label),
-  foreign key (pid) references product(pid),
-  foreign key (label) references category(label)
+  foreign key (pid) references product(pid) ON DELETE CASCADE,
+  foreign key (label) references category(label) ON DELETE CASCADE
 );
+
+
 
 
 create table listing
@@ -74,9 +87,11 @@ create table listing
   pid integer not null,
   seller_id integer not null,
   primary key (listing_id),
-  foreign key (pid) references product(pid),
-  foreign key (seller_id) references seller(seller_id)
+  foreign key (pid) references product(pid) ON DELETE CASCADE,
+  foreign key (seller_id) references seller(seller_id) ON DELETE CASCADE
 );
+
+
 
 
 create table completed_transaction
@@ -88,10 +103,12 @@ create table completed_transaction
   buyer_id integer,
   listing_id integer not null,
   PRIMARY KEY (listing_id),
-  FOREIGN KEY (seller_id) REFERENCES seller(seller_id),
-  FOREIGN KEY (buyer_id) REFERENCES buyer(buyer_id),
-  FOREIGN KEY (listing_id) REFERENCES listing(listing_id)
+  FOREIGN KEY (seller_id) REFERENCES seller(seller_id) ON DELETE CASCADE,
+  FOREIGN KEY (buyer_id) REFERENCES buyer(buyer_id) ON DELETE CASCADE,
+  FOREIGN KEY (listing_id) REFERENCES listing(listing_id) ON DELETE CASCADE
 );
+
+
 
 
 create table bid
@@ -102,9 +119,11 @@ create table bid
   buyer_id integer not null,
   bid_time date not null,
   primary key (bid_no, amount, listing_id),
-  foreign key (listing_id) references listing(listing_id),
-  foreign key (buyer_id) references buyer(buyer_id)
+  foreign key (listing_id) references listing(listing_id) ON DELETE CASCADE,
+  foreign key (buyer_id) references buyer(buyer_id) ON DELETE CASCADE
 );
+
+
 
 
 CREATE TRIGGER checkBidValidity
@@ -128,13 +147,16 @@ FROM listing WHERE listing_id=:NEW.listing_id;
 SELECT seller_id INTO seller
 FROM listing WHERE listing_id = :NEW.listing_id;
 
+
 IF :NEW.bid_time > deadline THEN
 RAISE invalid_time;
 END IF;
 
+
 IF :NEW.buyer_id = seller THEN
 RAISE invalid_Seller;
 END IF;
+
 
 IF :NEW.amount <= bid_amt AND :NEW.amount<st_bid THEN
 RAISE invalid_bid;
@@ -146,6 +168,64 @@ WHEN invalid_bid THEN
 RAISE_APPLICATION_ERROR(-20001, 'Invalid bid amount!');
 WHEN invalid_seller THEN
 RAISE_APPLICATION_ERROR(-20001, 'Invalid bidder!');
+END;
+/
+
+
+
+
+CREATE TRIGGER updateAvgRating
+BEFORE INSERT ON completed_transaction
+FOR EACH ROW 
+
+
+DECLARE
+seller_sum INTEGER := 0;
+buyer_sum INTEGER := 0;
+num INTEGER := 0;
+
+
+BEGIN
+
+
+SELECT count(*) INTO num FROM completed_transaction WHERE seller_id=:NEW.seller_id or buyer_id=:NEW.seller_id;
+SELECT SUM(rating_buyer_to_seller) INTO seller_sum FROM completed_transaction WHERE seller_id=:NEW.seller_id;
+SELECT SUM(rating_seller_to_buyer) INTO buyer_sum FROM completed_transaction WHERE buyer_id=:NEW.seller_id;
+
+
+IF seller_sum IS NOT NULL OR buyer_sum IS NOT NULL THEN
+UPDATE customer
+SET avg_rating = ((seller_sum + buyer_sum + :NEW.rating_buyer_to_seller)/(num+1))
+WHERE id=:NEW.seller_id;
+END IF;
+
+
+IF seller_sum IS NULL OR buyer_sum IS NULL THEN
+UPDATE customer
+SET avg_rating = ((:NEW.rating_seller_to_buyer))
+WHERE id=:NEW.seller_id;
+END IF;
+
+
+SELECT count(*) INTO num FROM completed_transaction WHERE seller_id=:NEW.buyer_id or buyer_id=:NEW.buyer_id;
+SELECT SUM(rating_buyer_to_seller) INTO seller_sum FROM completed_transaction WHERE seller_id=:NEW.buyer_id;
+SELECT SUM(rating_seller_to_buyer) INTO buyer_sum FROM completed_transaction WHERE buyer_id=:NEW.buyer_id;
+
+
+IF seller_sum IS NOT NULL OR buyer_sum IS NOT NULL THEN
+UPDATE customer
+SET avg_rating = ((seller_sum + buyer_sum + :NEW.rating_seller_to_buyer)/(num+1))
+WHERE id=:NEW.buyer_id;
+END IF;
+
+
+IF seller_sum IS NULL OR buyer_sum IS NULL THEN
+UPDATE customer
+SET avg_rating = ((:NEW.rating_seller_to_buyer))
+WHERE id=:NEW.buyer_id;
+END IF;
+
+
 END;
 /
 
@@ -162,6 +242,8 @@ insert into customer values (9,'karthik', 60, 'M', TO_DATE( '29-JUL-2016', 'DD-M
 insert into customer values (10,'amulya', 50, 'F', TO_DATE( '01-SEP-2016', 'DD-MON-YYYY' ), NULL);
 
 
+
+
 insert into product values(111, 'macbook air');
 insert into product values(222, 'surface pro');
 insert into product values(333, 'iphone 6s');
@@ -171,13 +253,17 @@ insert into product values(666, 'sweater');
 insert into product values(777, 'dress');
 insert into product values(888, 'necklace');
 insert into product values(999, 'earrings');
-insert into product values(112, 'Suitcase');
+insert into product values(112, 'suitcase');
+
+
 
 
 insert into category values ('electronics');
 insert into category values ('clothing');
 insert into category values ('luggage');
 insert into category values ('accessories');
+
+
 
 
 insert into belongs_to values(111,'electronics');
@@ -192,10 +278,14 @@ insert into belongs_to values(999,'accessories');
 insert into belongs_to values(112,'luggage');
 
 
+
+
 insert into seller values(10);
 insert into seller values(7);
 insert into seller values(5);
 insert into seller values(1);
+
+
 
 
 insert into listing values(1,'used', 'active', 700, TO_DATE('12-NOV-2016','DD-MON-YYYY'), TO_DATE('20-NOV-2016','DD-MON-YYYY'), 222, 10);
@@ -210,12 +300,16 @@ insert into listing values(9,'used', 'active', 200, TO_DATE('12-NOV-2016','DD-MO
 insert into listing values(10,'used', 'active', 1000, TO_DATE('12-NOV-2016','DD-MON-YYYY'), TO_DATE('01-DEC-2016','DD-MON-YYYY'), 111, 5);
 
 
+
+
 insert into buyer values(2);
 insert into buyer values(3);
 insert into buyer values(4);
 insert into buyer values(6);
 insert into buyer values(8);
 insert into buyer values(9);
+
+
 
 
 insert into bid values(1,701,1,2,to_date('12-NOV-2016 09:50' , 'DD-MON-YYYY HH24:MI','NLS_DATE_LANGUAGE=AMERICAN'));

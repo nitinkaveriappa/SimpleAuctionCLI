@@ -10,7 +10,6 @@ public class DBConnect {
 		String password;
 		user = "nudiyand";
 		password = "ygroas";
-		
 		Connection con=null;
 		try{  
 		//step1 load the driver class  

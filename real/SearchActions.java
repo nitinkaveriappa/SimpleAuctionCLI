@@ -48,7 +48,7 @@ public class SearchActions {
 	}
 
 	public static void searchListSID() {
-		System.out.println("Enter the Product ID to search Listing: ");
+		System.out.println("Enter the Seller ID to search Listing: ");
 		
 		//get product id to search listing as user input
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
