@@ -10,8 +10,33 @@ public class SimpleAuction {
 		//ArrayList<String> list=new ArrayList<String>();
 		String Op1 = null;
 		int Int1 = 0;
+		String user = null;
+		String pass = null;
+		
+	    System.out.println("Welcome to SimpleAuction Database CLI");
+	    System.out.println("Please enter your username and password:");
+		//take username and password as input from user
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Username: ");
+		try {
+			 user = br.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(user);
+
+		System.out.println("Password: ");
+		try {
+			 pass = br.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("*****");
+
+		LoginAction.connect(user, pass);
+		
 		while(Int1!=4){
-		    System.out.println("Welcome to SimpleAuction Database CLI");
+		    
 		    System.out.println("Please select one of the options below:");
 		
 		    System.out.println("1. View table content");
@@ -20,7 +45,7 @@ public class SimpleAuction {
 		    System.out.println("4. Exit");
 			System.out.println("User Input(1-4): ");
 	
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			br = new BufferedReader(new InputStreamReader(System.in));
 			try {
 				Op1 = br.readLine();
 			} catch (IOException e) {
@@ -40,7 +65,7 @@ public class SimpleAuction {
 				Actions.searchDatabase();
 				break;
 			case 4:
-				System.out.println("Thank you for using our Simple Auction Application");
+				System.out.println("Thank you for using SimpleAuction.");
 				break;
 			default:
 				System.out.println("ERROR: Please select valid option");
