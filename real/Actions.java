@@ -118,19 +118,19 @@ public class Actions {
 				ModifyActions.insertNewCustomer();
 				break;
 			case 2:
-				
+				ModifyActions.createListing();
 				break;
 			case 3:
-				
+				ModifyActions.makeBid();
 				break;
 			case 4:
-				
+				ModifyActions.alterCustomer();
 				break;
 			case 5:
-				
+				ModifyActions.alterListing();
 				break;
 			case 6:
-			
+				ModifyActions.alterBids();
 				break;
 			case 7:
 				break;
