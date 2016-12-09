@@ -99,8 +99,7 @@ public class Actions {
 			System.out.println("3. Enter information for bids");
 			System.out.println("4. Update/delete information on customers");
 			System.out.println("5. Update/delete information on listings");
-			System.out.println("6. Update/delete information on bids");
-			System.out.println("7. Go back to Previous Menu");
+			System.out.println("6. Go back to Previous Menu");
 			
 			System.out.println("User Input(1-7): ");
 			
@@ -130,9 +129,6 @@ public class Actions {
 				ModifyActions.alterListing();
 				break;
 			case 6:
-				ModifyActions.alterBids();
-				break;
-			case 7:
 				break;
 			default:
 				System.out.println("ERROR: Please select valid option");

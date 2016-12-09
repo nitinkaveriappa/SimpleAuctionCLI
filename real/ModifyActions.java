@@ -582,10 +582,4 @@ public class ModifyActions {
 
 	}
 
-	
-	//Don't think there should be an option to alter bids. you can only post an other bid I guess.
-	public static void alterBids(){
-		
-	}
-	
 }
