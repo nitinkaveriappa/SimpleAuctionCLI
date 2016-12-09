@@ -1,7 +1,6 @@
 package real;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -17,33 +16,22 @@ public class SimpleAuction {
 	    System.out.println("Welcome to SimpleAuction Database CLI");
 	    System.out.println("Please enter your username and password:");
 		//take username and password as input from user
-		
-	    Console cnsl = null;
-	    
-	      try{
-	         // creates a console object
-	         cnsl = System.console();
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		System.out.println("Username: ");
+		try {
+			 user = br.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println(user);
 
-	         // if console is not null
-	         if (cnsl != null) {
-	            
-	            // read line from the user input
-	            user = cnsl.readLine("Name: ");
-	            
-	            // prints
-	            System.out.println("Name is: " + user);
-	            
-	            // read password into the char array
-	            pass = String.valueOf(cnsl.readPassword("Password: "));
-	            
-	            // prints
-	            System.out.println("Hope your Password is correct, otherwise please Exit and Restart the program");
-	         }      
-	      }catch(Exception ex){
-	         
-	         // if any error occurs
-	         ex.printStackTrace();      
-	      }
+		System.out.println("Password: ");
+		try {
+			 pass = br.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("*****");
 
 		LoginAction.connect(user, pass);
 		
@@ -57,7 +45,7 @@ public class SimpleAuction {
 		    System.out.println("4. Exit");
 			System.out.println("User Input(1-4): ");
 	
-			BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+			br = new BufferedReader(new InputStreamReader(System.in));
 			try {
 				Op1 = br.readLine();
 			} catch (IOException e) {
